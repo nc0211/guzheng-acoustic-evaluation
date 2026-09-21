@@ -55,7 +55,7 @@ A dataset comprising 48 audio files across the three instrument tiers was analyz
 | **ins3 (0.7m Toy)** | 866.05 | 12.01 | 0.0155 | 3.44 |
 
 ### Acoustic Comparison Visualizations
-![Guzheng Comparison Bars](guzheng_cimparison_bars.png)
+![Guzheng Comparison Bars](guzheng_comparison_bars.png)
 
 ---
 

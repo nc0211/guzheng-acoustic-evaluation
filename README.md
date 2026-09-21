@@ -21,12 +21,12 @@ In international instrument distribution, evaluating Guzheng quality remotely is
 ## 🎙️ 2. Standardized Recording Protocol & Dataset
 To eliminate environmental variables, recordings are captured under strict spatial controls with a tiered instrument lineup:
 
-### Instrument Tiers & Physical Specifications (guzheng_instruments.jpg)
+### Instrument Tiers & Physical Specifications
 * **`ins1` (1.6m Flagship)**: Standard full-size (163 cm) concert Guzheng, optimized for maximum soundboard resonance and deep low-end sustain.
 * **`ins2` (1.0m Mid-Range)**: Compact/travel-sized variant (~1.0m), offering a drier, more focused mid-range tone.
 * **`ins3` (0.7m Toy/Mini)**: Ultra-short practice model (~0.7m), serving as a baseline lower-bound for acoustic degradation.
 
-![Guzheng Instruments Setup]
+![Guzheng Instruments Setup](guzheng_instruments.jpg)
 
 * **Dual-Microphone Setup**: 
   * *Primary Mic*: RODE shotgun directional microphone placed at $50\text{ cm}$.
@@ -55,7 +55,7 @@ A dataset comprising 48 audio files across the three instrument tiers was analyz
 | **ins3 (0.7m Toy)** | 866.05 | 12.01 | 0.0155 | 3.44 |
 
 ### Acoustic Comparison Visualizations
-![Guzheng Comparison Bars](plots.png)
+![Guzheng Comparison Bars](guzheng_cimparison_bars.png)
 
 ---
 

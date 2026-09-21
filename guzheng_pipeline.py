@@ -24,7 +24,7 @@ for file_path in audio_files:
     elif 'strech' in base_name:
         file_type = 'strech'
     else:
-        print(f"⚠️ 無法辨識技法，跳過檔案: {filename}")
+        print(f" 無法辨識技法，跳過檔案: {filename}")
         continue
 
     # 2. 智慧辨識琴號 (Instrument ID: ins1, ins2, ins3, ins4...)
@@ -35,7 +35,7 @@ for file_path in audio_files:
             break
     
     if not ins_id:
-        print(f"⚠️ 無法辨識琴號，跳過檔案: {filename}")
+        print(f" 無法辨識琴號，跳過檔案: {filename}")
         continue
 
     # 3. 抓取測試次數 (Take) - 抓取檔名最後的數字
@@ -91,7 +91,7 @@ for file_path in audio_files:
 df_all = pd.DataFrame(all_results)
 df_all = df_all.sort_values(by=['Instrument', 'Technique', 'Take'])
 
-print(f"\n✅ 成功解析並處理了 {len(df_all)} 個檔案！")
+print(f"\n 成功解析並處理了 {len(df_all)} 個檔案！")
 print("=== 各琴跨所有技法的最終綜合總結表 ===")
 df_grand_summary = df_all.groupby('Instrument')[
     ['Brightness (Hz)', 'Purity/HNR (dB)', 'Continuity (Flatness x1k)', 'Sustain Time (s)']

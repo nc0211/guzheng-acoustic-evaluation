@@ -1,14 +1,14 @@
-# 🎻 Objective Acoustic Evaluation System for Guzheng Quality
+# Objective Acoustic Evaluation System for Guzheng Quality
 
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://www.python.org/)
 [![DSP](https://img.shields.io/badge/Domain-Digital%20Signal%20Processing-orange.svg)](https://en.wikipedia.org/wiki/Digital_signal_processing)
 [![Status](https://img.shields.io/badge/Status-Active%20Side%20Project-success.svg)](-)
 
-A rigorous, automated acoustic evaluation pipeline designed to solve a critical industry challenge: **enabling objective, remote instrument quality assessment (Remote Audio Inspection)**. Developed from the perspective of an overseas Guzheng distributor in Sweden, this project bridges subjective luthier craftsmanship with data-driven Digital Signal Processing (DSP) to minimize inventory overhead while ensuring standardized evaluation.
+This project addresses a core challenge faced by a Chinese instrument distributor in Sweden: high international shipping costs and the need to minimize inventory make it impractical to stock every sample locally. Traditionally, buyers had to rely solely on online videos and peer reviews to imagine an instrument's sound quality. To overcome this, our project leverages data-driven Digital Signal Processing (DSP) to bridge the gap and ensure standardized, objective evaluations. I am currently testing feasibility using our existing small inventory in Sweden. If opportunities arise to collaborate with manufacturers for a broader sample size in the future, I will further incorporate deep learning to improve classification accuracy.
 
 ---
 
-## 🎯 1. Background & Business Motivation
+## 1. Background & Business Motivation
 In international instrument distribution, evaluating Guzheng quality remotely is notoriously difficult. Traditional reliance on raw audio recordings fails due to:
 * **Uncontrolled Acoustic Environments**: Differences in room acoustics and microphone setups render comparison meaningless.
 * **Subjective Jargon**: Descriptive words like "bright" or "resonant" lack standardization.
@@ -18,7 +18,7 @@ In international instrument distribution, evaluating Guzheng quality remotely is
 
 ---
 
-## 🎙️ 2. Standardized Recording Protocol & Dataset
+## 2. Standardized Recording Protocol & Dataset
 To eliminate environmental variables, recordings are captured under strict spatial controls with a tiered instrument lineup:
 
 ### Instrument Tiers & Physical Specifications
@@ -35,18 +35,22 @@ To eliminate environmental variables, recordings are captured under strict spati
   * **Glissando (`gliss`)**: Rapid sweeps from the lowest to highest register to map full-range frequency characteristics and spectral continuity.
   * **Chord (`chord`)**: Multi-string simultaneous strikes to evaluate attack dynamics and initial energy.
   * **Sustained Notes (`strech`)**: Single-note plucks to capture long-term reverb and decay characteristics (*"Sustain Time"*).
+ 
+For each instrument, three distinct timbres were recorded with three takes per timbre. We then aggregate the data across all three timbres for each instrument to holistically evaluate and summarize its overall quality.
 
 ---
 
-## ⚙️ 3. DSP Engineering & Algorithmic Obstacles Overcome
+## 3. DSP Engineering & Algorithmic Obstacles Overcome
 During feature extraction, standard out-of-the-box algorithms proved insufficient, leading to key engineering workarounds:
-* **Onset Detection for Glissando**: Standard RMS envelope thresholding ($0.2$ amplitude) failed to capture fast, sweeping glissandos. **Solution**: Implemented a $70\text{ Hz}$ high-pass filter to isolate the fundamental frequencies just below the Guzheng's lowest register, successfully stripping out low-end environmental rumble.
-* **Sustain Decay Boundary**: Automated slope-discontinuity algorithms struggled with erratic acoustic tails. **Solution**: Validated via visual inspection and optimized to a standardized $10$-second post-onset sliding window, ensuring robust, repeatable energy decay measurements.
+* **Onset Detection for Glissando**: Standard RMS amplitude envelope thresholding ($0.2$ amplitude) failed to capture lower-register notes with lower energy. Solution: Implemented a $70\text{ Hz}$ high-pass filter to isolate the fundamental frequencies just below the Guzheng's lowest register, successfully stripping out low-end environmental rumble. Additionally, I detected the onset and pre-triggered by $4$ sample points backward to preserve the integrity of the sound.
+* **Sustain Decay Boundary**: Automated slope-discontinuity algorithms struggled with erratic acoustic tails. Solution: Validated via visual inspection and optimized to a standardized $10$-second post-onset sliding window, ensuring robust, repeatable energy decay measurements.
 
 ---
 
-## 📊 4. Core Acoustic Metrics & Findings
-A dataset comprising 48 audio files across the three instrument tiers was analyzed:
+## 4. Core Acoustic Metrics & Findings
+A dataset comprising 27 audio files across the three instrument tiers was analyzed:
+
+Audio Specification: Standardized at $44100\text{ Hz}$ sample rate in mono (16-bit).
 
 | Instrument Tier | Avg. Brightness (Hz) | Avg. Purity / HNR (dB) | Avg. Continuity (Flatness x1k) | Avg. Sustain Time (s) |
 | :--- | :---: | :---: | :---: | :---: |
@@ -59,13 +63,13 @@ A dataset comprising 48 audio files across the three instrument tiers was analyz
 
 ---
 
-## 🔬 5. Domain Insights & Physical Hypotheses
-An intriguing anomaly emerged: **the 1.0m mid-range instrument (`ins2`) scored slightly higher in HNR purity than the flagship (`ins1`)**. Drawing from years of hands-on performance experience, we hypothesize:
+## 5. Domain Insights & Physical Hypotheses
+An intriguing anomaly emerged: **the 1.0m mid-range instrument (`ins2`) scored slightly higher in HNR purity than the flagship (`ins1`)**. Drawing from years of hands-on performance experience, I hypothesize:
 * **String Tension & Transient Friction**: Flagship instruments feature longer scales and higher string tension. During aggressive attacks, artificial nails (*"Yijia"*) generate higher transient friction and non-linear string noise, which HPSS categorizes as percussive energy, slightly lowering global HNR despite superior overall resonance.
 
 ---
 
-## 📂 6. Repository Structure
+## 6. Repository Structure
 ```text
 guzheng-acoustic-evaluation/
 │
@@ -75,3 +79,9 @@ guzheng-acoustic-evaluation/
 ├── guzheng_instruments.jpg    # Physical setup of the 3 instrument tiers
 ├── plots.png                  # Multi-dimensional acoustic comparison plots
 └── output_mp3/                # Processed audio dataset directory (Excluded)
+```
+---
+
+## 7. Future work
+Future work involves collaborating with manufacturers to conduct recordings in factory studios, standardizing microphone placement and acoustic environments to capture a wider range of Guzheng models. Once new instruments arrive in the future, we can leverage this expanded dataset to perform machine learning-based comparisons, enabling automated, direct evaluation of their timbre quality.
+
